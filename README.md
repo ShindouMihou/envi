@@ -58,6 +58,7 @@ each feature by opening the summaries below.
 </details>
 <details>
     <summary>Regex validation</summary>
+
 ```kotlin
     object Configuration {
         @Regex(pattern = "world")
@@ -67,9 +68,11 @@ each feature by opening the summaries below.
 ```dotenv
     hello=world
 ```
+
 </details>
 <details>
     <summary>Required field</summary>
+
 ```kotlin
     object Configuration {
         // throws an exception in this example
@@ -80,6 +83,7 @@ each feature by opening the summaries below.
 ```dotenv
     hello=
 ```
+
 </details>
 <details>
     <summary>Validatable field</summary>
@@ -101,6 +105,7 @@ each feature by opening the summaries below.
 </details>
 <details>
     <summary>Alternatively, or different keys.</summary>
+
 ```kotlin
     object Configuration {
         // should have no value.
@@ -111,6 +116,7 @@ each feature by opening the summaries below.
 ```dotenv
     hello=world
 ```
+
 </details>
 
 ### Creating your own adapter
