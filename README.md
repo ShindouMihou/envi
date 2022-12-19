@@ -46,6 +46,7 @@ each feature by opening the summaries below.
 
 <details>
     <summary>Alternatively, or different keys</summary>
+    
 ```kotlin
     object Configuration {
         @Alternatively(name = "hello")
@@ -55,6 +56,7 @@ each feature by opening the summaries below.
 ```dotenv
     hello=world
 ```
+
 </details>
 <details>
     <summary>Regex validation</summary>
