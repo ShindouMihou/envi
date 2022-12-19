@@ -46,44 +46,45 @@ each feature by opening the summaries below.
 
 <details>
     <summary>Alternatively, or different keys</summary>
-    ```kotlin
+```kotlin
     object Configuration {
         @Alternatively(name = "hello")
         lateinit var world: String
     }
-    ```
-    ```dotenv
+```
+```dotenv
     hello=world
-    ```
+```
 </details>
 <details>
     <summary>Regex validation</summary>
-    ```kotlin
+```kotlin
     object Configuration {
         @Regex(pattern = "world")
         lateinit var hello: String
     }
-    ```
-    ```dotenv
+```
+```dotenv
     hello=world
-    ```
+```
 </details>
 <details>
     <summary>Required field</summary>
-    ```kotlin
+```kotlin
     object Configuration {
         // throws an exception in this example
         @Required
         lateinit var world: String
     }
-    ```
-    ```dotenv
+```
+```dotenv
     hello=
-    ```
+```
 </details>
 <details>
     <summary>Validatable field</summary>
-    ```kotlin
+
+```kotlin
     object Configuration {
         @Validatable(with = "envi.world")
         lateinit var world: String
@@ -92,23 +93,24 @@ each feature by opening the summaries below.
     fun main {
         Envi.validators["envi.world"] = EnviValidator { contents -> contents.equals("world") }
     }
-    ```
-    ```dotenv
+```
+```dotenv
     hello=world
-    ```
+```
+
 </details>
 <details>
     <summary>Alternatively, or different keys.</summary>
-    ```kotlin
+```kotlin
     object Configuration {
         // should have no value.
         @Skip
         lateinit var world: String
     }
-    ```
-    ```dotenv
+```
+```dotenv
     hello=world
-    ```
+```
 </details>
 
 ### Creating your own adapter
