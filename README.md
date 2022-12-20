@@ -105,7 +105,7 @@ hello=world
 
 </details>
 <details>
-    <summary>Alternatively, or different keys.</summary>
+    <summary>Skipping fields</summary>
 
 ```kotlin
 object Configuration { 
