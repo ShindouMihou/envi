@@ -146,4 +146,19 @@ Envi.createConfigurator(SomeAdapter)
 
 ### Adding fallback collections
 
-You can allow Envi to have a fallback route, for cases such as Docker environments, which contrary to our development environment, uses a Dotenv
+You can allow Envi to have a fallback route, for cases such as Docker environments, which contrary to our development environment, uses a Dotenv configuration 
+then you can include a fallback collector which can be done by such as this:
+```kotlin
+Envi.createConfiguratior(...)
+    .fallback(EnvironmentFallback)
+```
+
+In the following example, `EnvironmentFallback` is a built-in fallback that Envi comes with that simply routes to `System.getenv(key)`, you can build your 
+own fallback by simply implementing the `Collector` interface:
+```kotlin
+object SomeEnvironment: Collector {
+    override fun collect(key: String): String = ...
+}
+```
+
+And now, you can use it the same way as the example demonstrated.
