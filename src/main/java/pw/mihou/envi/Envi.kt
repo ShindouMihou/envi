@@ -21,8 +21,9 @@ class Envi internal constructor(adapter: EnviAdapter) {
         fun createConfigurator(adapter: EnviAdapter) = Envi(adapter)
     }
 
-    fun fallback(collector: Collector?) {
+    fun fallback(collector: Collector?): Envi {
         engine.collector = collector
+        return this
     }
 
     fun read(file: File, into: Class<*>) {
