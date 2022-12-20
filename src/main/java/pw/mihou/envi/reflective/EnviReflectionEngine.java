@@ -1,8 +1,11 @@
 package pw.mihou.envi.reflective;
 
+import org.jetbrains.annotations.Nullable;
+
 import pw.mihou.envi.Envi;
 import pw.mihou.envi.adapters.EnviAdapter;
 import pw.mihou.envi.annotations.*;
+import pw.mihou.envi.collectors.Collector;
 import pw.mihou.envi.exceptions.NoSuchValidatorException;
 import pw.mihou.envi.exceptions.ValidatorDisagreedException;
 import pw.mihou.envi.validators.EnviValidator;
@@ -16,6 +19,7 @@ import java.util.stream.Stream;
 public class EnviReflectionEngine {
 
     private final EnviAdapter adapter;
+    public @Nullable Collector collector;
 
     public EnviReflectionEngine(EnviAdapter adapter) {
         this.adapter = adapter;
@@ -39,12 +43,16 @@ public class EnviReflectionEngine {
                             name = field.getAnnotation(Alternatively.class).name();
                         }
 
-                        if (adapted.containsKey(name)) {
+                        String value = adapted.get(name);
+                        if (value == null && collector != null) {
+                            value = collector.collect(name);
+                        }
 
+                        if (value != null) {
                             if (field.isAnnotationPresent(Regex.class)) {
                                 Regex regex = field.getAnnotation(Regex.class);
-                                if (!adapted.get(name).matches(regex.pattern())) {
-                                    throw new IllegalArgumentException("The value for " + name + " does not adhere to the regex pattern provided. {value=" + adapted.get(name) + "}");
+                                if (!value.matches(regex.pattern())) {
+                                    throw new IllegalArgumentException("The value for " + name + " does not adhere to the regex pattern provided. {value=" + value + "}");
                                 }
                             }
 
@@ -56,25 +64,25 @@ public class EnviReflectionEngine {
                                     throw new NoSuchValidatorException(name, validatable.with());
                                 }
 
-                                if (!validator.resolve(adapted.get(name))) {
-                                    throw new ValidatorDisagreedException(name, validatable.with(), adapted.get(name));
+                                if (!validator.resolve(value)) {
+                                    throw new ValidatorDisagreedException(name, validatable.with(), value);
                                 }
                             }
                            Class<?> type = field.getType();
 
                             if (type.equals(Boolean.class) || type.equals(boolean.class))
-                                field.setBoolean(field, Boolean.parseBoolean(adapted.get(name)));
+                                field.setBoolean(field, Boolean.parseBoolean(value));
                             else if (type.equals(Integer.class) || type.equals(int.class))
-                                field.setInt(field, Integer.parseInt(adapted.get(name)));
+                                field.setInt(field, Integer.parseInt(value));
                             else if(type.equals(Long.class) || type.equals(long.class))
-                                field.setLong(field, Long.parseLong(adapted.get(name)));
+                                field.setLong(field, Long.parseLong(value));
                             else if(type.equals(Character.class) || type.equals(char.class))
-                                field.setChar(field, adapted.get(name).charAt(0));
+                                field.setChar(field, value.charAt(0));
                             else if(type.equals(String.class))
-                                field.set(field, adapted.get(name));
+                                field.set(field, value);
                             else if(type.equals(Double.class) || type.equals(double.class))
-                                field.set(field, Double.parseDouble(adapted.get(name)));
-                            else field.set(field, adapter.resolve(adapted.get(name), type));
+                                field.set(field, Double.parseDouble(value));
+                            else field.set(field, adapter.resolve(value, type));
                         } else {
                             if (field.isAnnotationPresent(Required.class)) {
                                 throw new IllegalArgumentException("The field " + name + " is annotated as a required field, but there is no value associated with the name.");

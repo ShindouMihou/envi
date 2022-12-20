@@ -143,3 +143,7 @@ Once your adapter is created, you can use it with Envi:
 ```kotlin
 Envi.createConfigurator(SomeAdapter)
 ```
+
+### Adding fallback collections
+
+You can allow Envi to have a fallback route, for cases such as Docker environments, which contrary to our development environment, uses a Dotenv
