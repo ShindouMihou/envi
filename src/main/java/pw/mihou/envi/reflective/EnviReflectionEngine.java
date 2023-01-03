@@ -37,8 +37,10 @@ public class EnviReflectionEngine {
                             return;
                         }
 
-                        // IMPORTANT: We don't want to support reflecting into the same class.
-                        if (field.getClass().getName().equals(clazz.getName()) || field.getClass() == clazz) {
+                        // IMPORTANT: All the ways to attempt to detect Kotlin objects.
+                        if (field.getName().equals("INSTANCE")
+                                || field.getClass().getName().equals(clazz.getName())
+                                || field.getClass() == clazz) {
                             return;
                         }
 
