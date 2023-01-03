@@ -38,7 +38,8 @@ public class EnviReflectionEngine {
                         }
 
                         // Kotlin's INSTANCE field.
-                        if (field.getClass() == clazz && field.getName().equals("INSTANCE")) {
+                        if (field.getClass().getName().equals(clazz.getName())
+                                && field.getName().equals("INSTANCE")) {
                             return;
                         }
 
