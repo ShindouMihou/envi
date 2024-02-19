@@ -43,4 +43,8 @@ class Envi internal constructor(adapter: EnviAdapter) {
         engine.into(into, Stream.of(contents))
     }
 
+    fun read(stream: Stream<String>, into: Class<*>) {
+        engine.into(into, stream)
+    }
+
 }
